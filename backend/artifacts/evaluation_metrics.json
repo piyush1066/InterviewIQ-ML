@@ -1,0 +1,9 @@
+{
+  "dataset_rows": 15,
+  "train_rows": 11,
+  "test_rows": 4,
+  "mae": 1.364,
+  "rmse": 1.631,
+  "r2": 0.63,
+  "note": "Tiny illustrative dataset: metrics are not representative of production performance."
+}

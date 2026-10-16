@@ -1,0 +1,16 @@
+question,reference_answer,candidate_answer,score
+"What is a HashMap in Java?","Stores key value pairs and uses hashing for efficient lookup. It allows one null key and is not synchronized.","A HashMap stores key value pairs and uses hashing to find values quickly.",8
+"What is a HashMap in Java?","Stores key value pairs and uses hashing for efficient lookup. It allows one null key and is not synchronized.","HashMap is a data structure.",3
+"What is a HashMap in Java?","Stores key value pairs and uses hashing for efficient lookup. It allows one null key and is not synchronized.","A HashMap stores key value pairs. It uses hashing for fast lookup, allows one null key, and is not synchronized.",9
+"What is polymorphism?","Polymorphism allows one interface or method name to represent different implementations, such as overloading and overriding.","Polymorphism means many forms. In Java, overriding lets a subclass provide its own implementation of a method.",8
+"What is polymorphism?","Polymorphism allows one interface or method name to represent different implementations, such as overloading and overriding.","It is an OOP concept.",3
+"What is polymorphism?","Polymorphism allows one interface or method name to represent different implementations, such as overloading and overriding.","Polymorphism is many forms and can be achieved using method overloading and overriding.",8
+"What is an API?","An API defines how software components communicate through agreed requests and responses.","An API is a contract that lets software systems communicate using defined inputs and outputs.",9
+"What is an API?","An API defines how software components communicate through agreed requests and responses.","API stands for application programming interface.",4
+"What is an API?","An API defines how software components communicate through agreed requests and responses.","It connects software, often using HTTP endpoints and structured requests and responses.",8
+"What is normalization in databases?","Normalization organizes relational tables to reduce redundancy and prevent update anomalies.","Normalization reduces duplicated data by splitting related data into appropriate tables and defining relationships.",9
+"What is normalization in databases?","Normalization organizes relational tables to reduce redundancy and prevent update anomalies.","It makes database data normal.",2
+"What is normalization in databases?","Normalization organizes relational tables to reduce redundancy and prevent update anomalies.","It is a database process that reduces redundancy.",6
+"What is a REST API?","REST APIs expose resources over HTTP and commonly use methods such as GET, POST, PUT, and DELETE.","A REST API exposes resources through HTTP endpoints and uses methods such as GET and POST.",8
+"What is a REST API?","REST APIs expose resources over HTTP and commonly use methods such as GET, POST, PUT, and DELETE.","It is an API.",2
+"What is a REST API?","REST APIs expose resources over HTTP and commonly use methods such as GET, POST, PUT, and DELETE.","REST uses HTTP methods to work with resources, usually represented as JSON.",8
