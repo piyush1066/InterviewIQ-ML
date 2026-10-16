@@ -1,58 +1,250 @@
-# InterviewIQ-ML
+# InterviewIQ-ML 🚀
 
-Local resume-based interview practice. Resume text, matching, question generation, and answer scoring run through the local FastAPI service; no external AI service is called.
+### Resume-Based Interview Practice & ML-Powered Answer Evaluation
 
-## Run locally
+**Live Demo:** [interviewiq-ml-1.onrender.com](https://interviewiq-ml-1.onrender.com)
 
-1. Install Python 3.10+ and Node.js 20+.
-2. In PowerShell at the project root, create and activate the backend environment, then install dependencies:
+InterviewIQ-ML is a web application that helps candidates prepare for interviews using their resumes. It extracts relevant information from PDF resumes, generates personalized practice questions, evaluates written answers, and compares resumes with job descriptions using machine learning and natural language processing techniques.
 
-   ```powershell
-   cd backend
-   python -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-   pip install -r requirements.txt
-   python app.py
-   ```
+The application combines a React frontend with a Python FastAPI backend, providing a complete workflow for resume analysis and interview practice without relying on external generative AI APIs.
 
-3. In a second terminal, start the frontend:
+## ✨ Features
 
-   ```powershell
-   cd frontend
-   npm install
-   $env:VITE_API_BASE_URL = "http://127.0.0.1:8011"
-   npm run dev
-   ```
+- **Resume Parsing:** Upload a PDF resume to extract text, technical skills, education, projects, and experience.
+- **Personalized Interview Questions:** Generate up to 30 interview questions based on the candidate's resume, detected skills, projects, and experience.
+- **Answer Evaluation:** Receive a score out of 10, strengths, and actionable feedback on relevance, completeness, and answer structure.
+- **ML-Based Scoring:** Use a trained Random Forest model for additional score calibration when a reference answer is available.
+- **Resume–Job Matching:** Compare a resume with a job description using TF-IDF similarity and keyword overlap.
+- **Skill Gap Identification:** Review matched and missing terms to identify areas for improvement.
+- **Interview Practice Reports:** Review individual answers, scores, and improvement suggestions.
+- **Sample Resume:** Try the application using the built-in fictional sample PDF.
+- **Local-First Processing:** Resume extraction, question generation, matching, and evaluation run through the application's backend without external AI API calls.
 
-Open `http://localhost:5173`. The backend defaults to `http://127.0.0.1:8011` because 8010 may be reserved on some Windows machines. Set `PORT` before `python app.py` and `VITE_API_BASE_URL` before starting Vite if you need other ports. The FastAPI CORS allowlist defaults to the local Vite URLs and can be changed with `FRONTEND_ORIGINS`.
+## 🛠️ Tech Stack
 
-## Test the upload
+| Component | Technologies |
+|---|---|
+| Frontend | React, Vite, JavaScript, CSS |
+| Backend | Python, FastAPI, Uvicorn |
+| Machine Learning | scikit-learn, Random Forest, TF-IDF |
+| Text Analysis | Cosine similarity, keyword overlap, text-based features |
+| PDF Processing | pypdf |
+| Data Processing | pandas, NumPy |
+| Model Serialization | joblib |
+| Deployment | Render |
 
-Click **Use fictional sample PDF** in Resume Studio. It loads the bundled, selectable-text PDF at `frontend/public/sample-resume.pdf` and submits it through the same multipart `/resume/upload` endpoint used for a real resume. The sample is fictional test data. You can also select a PDF from any folder on your PC or drag it into the upload area. ChatGPT sandbox download links are not local Windows files; this sample removes that dependency.
+## 🏗️ Architecture
 
-## Run checks
+```text
+                    Candidate
+                       |
+                       v
+              React + Vite Frontend
+                       |
+                 HTTP Requests
+                       |
+                       v
+                FastAPI Backend
+                       |
+          +------------+------------+
+          |            |            |
+          v            v            v
+      Resume       Interview      Resume–Job
+      Parsing      Questions       Matching
+          |            |            |
+          +------------+------------+
+                       |
+                       v
+                Answer Evaluation
+                       |
+              +--------+--------+
+              |                 |
+              v                 v
+         Text Evidence     Random Forest
+         & Relevance       Calibration
+              |                 |
+              +--------+--------+
+                       |
+                       v
+              Scores & Feedback
+```
 
-From the project root, install the optional test dependencies and run the backend API tests:
+## 🌐 Live Demo
+
+Try InterviewIQ-ML here:
+
+**[Launch InterviewIQ-ML →](https://interviewiq-ml-1.onrender.com)**
+
+1. Open the application.
+2. Upload your resume or select the built-in sample PDF.
+3. Generate interview questions based on your resume.
+4. Submit answers and review scores and feedback.
+5. Compare your resume against a target job description.
+
+## 💻 Run Locally
+
+### Prerequisites
+
+- Python 3.10 or later
+- Node.js and npm
+- Git (optional)
+
+### 1. Clone or download the project
+
+```bash
+git clone <your-github-repository-url>
+cd InterviewIQ-ML
+```
+
+If you downloaded the ZIP, extract it and open a terminal in the project folder.
+
+### 2. Start the backend
+
+Open a terminal and run:
 
 ```powershell
 cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app:app --host 127.0.0.1 --port 8011 --reload
+```
+
+The backend will run at:
+
+- API: `http://127.0.0.1:8011`
+- Interactive API documentation: `http://127.0.0.1:8011/docs`
+- Health check: `http://127.0.0.1:8011/health`
+
+### 3. Start the frontend
+
+Open a second terminal from the project root:
+
+```powershell
+cd frontend
+npm install
+$env:VITE_API_BASE_URL = "http://127.0.0.1:8011"
+npm run dev
+```
+
+Open the local URL displayed by Vite, usually `http://localhost:5173`.
+
+### 4. Configure environment variables
+
+The backend supports these environment variables:
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `HOST` | Backend host | `127.0.0.1` |
+| `PORT` | Backend port | `8011` |
+| `MAX_TEXT_CHARS` | Maximum text length | `30000` |
+| `MAX_PDF_BYTES` | Maximum PDF size | `5242880` bytes |
+| `FRONTEND_ORIGINS` | Allowed frontend origins for CORS | Local Vite origins |
+
+For the frontend, configure `VITE_API_BASE_URL` with the backend's base URL. Do not append `/health` or another API route.
+
+Use the provided `.env.example` files as templates. Keep actual `.env` files out of Git.
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/health` | Check backend health and model availability |
+| POST | `/resume/upload` | Upload and parse a PDF resume |
+| POST | `/interview/generate` | Generate interview questions |
+| POST | `/answer/evaluate` | Evaluate a candidate's written answer |
+| POST | `/resume/match` | Compare resume text with a job description |
+
+Interactive documentation is available at `/docs` when the backend is running.
+
+## ☁️ Deployment on Render
+
+The frontend and backend are deployed as separate services.
+
+### Backend — Web Service
+
+- **Root Directory:** `backend`
+- **Build Command:** `pip install -r requirements.txt`
+- **Start Command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+
+Configure `FRONTEND_ORIGINS` with the exact deployed frontend URL.
+
+Ensure `backend/artifacts/answer_scorer.joblib` is included in the deployed source if the trained model is required.
+
+Verify the backend using `/health`. A successful response includes `"status": "ok"`.
+
+### Frontend — Static Site
+
+- **Root Directory:** `frontend`
+- **Build Command:** `npm ci && npm run build`
+- **Publish Directory:** `dist`
+- **Environment Variable:** `VITE_API_BASE_URL` set to the deployed backend URL.
+
+After changing `VITE_API_BASE_URL`, trigger a new frontend build.
+
+## 🧪 Testing
+
+Backend tests are available in `backend/tests/`.
+
+Run them with:
+
+```powershell
+cd backend
+pip install -r requirements.txt
 pip install -r test-requirements.txt
 python -m pytest -q
 ```
 
-Then build the frontend from a second terminal:
+Build the frontend to verify the production bundle:
 
 ```powershell
 cd frontend
+npm ci
 npm run build
 ```
 
-## Interview flow
+## 📁 Project Structure
 
-- Upload a text-based PDF resume (maximum 5 MB) to extract skills, education, projects, and experience.
-- Generate up to 30 resume-related and general practice questions.
-- Submit written answers for scoring, strengths, and targeted improvement prompts.
-- Review the final average, per-question scores, and interview-wide practice recommendations; print or save the report as PDF.
-- Optionally compare resume text with a job description using TF-IDF similarity and keyword coverage.
+```text
+InterviewIQ-ML/
+├── backend/
+│   ├── artifacts/
+│   │   └── answer_scorer.joblib
+│   ├── data/
+│   │   └── answer_training.csv
+│   ├── tests/
+│   ├── app.py
+│   ├── ml_features.py
+│   ├── train.py
+│   ├── requirements.txt
+│   └── test-requirements.txt
+├── frontend/
+│   ├── public/
+│   │   └── sample-resume.pdf
+│   ├── src/
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
+└── README.md
+```
 
-Question generation uses deterministic templates grounded in detected resume skills, project text, and experience; it is not LLM-level reasoning. Answer evaluation uses the compatible Random Forest artifact when available. This workspace has local model version `0.1.0`, verified against the nine current feature columns; the joblib file is ignored by Git. On a checkout without it, the API uses a clearly identified local TF-IDF and answer-structure heuristic, so the interview flow still works. To regenerate the artifact, run `python train.py` from `backend`. The labelled dataset has 15 examples and is illustrative; neither model nor fallback can verify technical correctness. Treat scores as practice signals, never hiring decisions. Scanned/image-only PDFs are not OCR processed; the app reports this and asks for a text-based PDF.
+## ⚠️ Limitations
+
+- Only text-based PDFs are supported. Scanned PDFs and image-only documents are not processed with OCR.
+- The maximum PDF upload size is 5 MB by default.
+- Interview questions use deterministic templates rather than an LLM.
+- Resume matching uses text similarity and keyword overlap; it does not guarantee job suitability.
+- The answer-scoring dataset contains only 15 illustrative examples. The trained model and scoring heuristics are experimental and have not been established as reliable measures of technical correctness.
+- Scores should be used as interview-practice guidance, not as the sole basis for hiring decisions.
+
+## 🔒 Privacy
+
+Resume content is sent to the configured backend for processing. Use only documents you have permission to process. Never commit private resumes, actual `.env` files, or credentials to a public repository.
+
+## 🎯 Project Goal
+
+InterviewIQ-ML demonstrates how machine learning, text processing, PDF extraction, and full-stack development can be combined to build a practical interview-preparation application.
+
+---
+
+**Built with React, FastAPI, and machine learning.**
